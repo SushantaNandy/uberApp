@@ -14,7 +14,7 @@ public class Rider {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "app_user") //forein key from User table for Rider
+    @JoinColumn(name = "user_id") //forein key from User table for Rider
     private User user;
 
     private Double rating;

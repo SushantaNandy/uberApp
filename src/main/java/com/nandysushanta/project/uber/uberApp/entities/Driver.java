@@ -15,7 +15,7 @@ public class Driver {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "app_user")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Double rating;
