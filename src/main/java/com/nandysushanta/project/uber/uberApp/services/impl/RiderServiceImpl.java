@@ -23,8 +23,17 @@ public class RiderServiceImpl implements RiderService {
 
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
+
+        log.info("Before mapping - PointDto: {}", rideRequestDto.getPickupLocation());
+
         RideRequest rideRequest = modelMapper.map(rideRequestDto, RideRequest.class);
         log.info(rideRequest.toString());
+
+        log.info("After mapping - Point: {}", rideRequest.getPickupLocation());
+        log.info("Point coordinates: X={}, Y={}",
+                rideRequest.getPickupLocation().getX(),
+                rideRequest.getPickupLocation().getY());
+
 
         return null;
     }
