@@ -16,13 +16,15 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RiderServiceImpl implements RiderService {
 
     private final ModelMapper modelMapper;
+
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
         RideRequest rideRequest = modelMapper.map(rideRequestDto, RideRequest.class);
-        //log.info(rideRequest.toString());
+        log.info(rideRequest.toString());
 
         return null;
     }
