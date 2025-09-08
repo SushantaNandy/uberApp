@@ -5,8 +5,11 @@ import com.nandysushanta.project.uber.uberApp.dto.RideDto;
 import com.nandysushanta.project.uber.uberApp.dto.RideRequestDto;
 import com.nandysushanta.project.uber.uberApp.dto.RiderDto;
 import com.nandysushanta.project.uber.uberApp.entities.RideRequest;
+import com.nandysushanta.project.uber.uberApp.entities.Rider;
+import com.nandysushanta.project.uber.uberApp.entities.User;
 import com.nandysushanta.project.uber.uberApp.entities.enums.RideRequestStatus;
 import com.nandysushanta.project.uber.uberApp.repositories.RideRequestRepository;
+import com.nandysushanta.project.uber.uberApp.repositories.RiderRepository;
 import com.nandysushanta.project.uber.uberApp.services.RiderService;
 
 import com.nandysushanta.project.uber.uberApp.strategies.DriverMatchingStrategy;
@@ -27,6 +30,7 @@ public class RiderServiceImpl implements RiderService {
     private final RideFareCalculationsStrategy rideFareCalculationsStrategy;
     private final DriverMatchingStrategy driverMatchingStrategy;
     private final RideRequestRepository rideRequestRepository;
+    private final RiderRepository riderRepository;
 
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
@@ -35,6 +39,7 @@ public class RiderServiceImpl implements RiderService {
         log.info(rideRequest.toString());
 
         log.info("After mapping - Point: {}", rideRequest.getPickupLocation());
+
         log.info("Point coordinates: X={}, Y={}",
                 rideRequest.getPickupLocation().getX(),
                 rideRequest.getPickupLocation().getY());
@@ -70,5 +75,11 @@ public class RiderServiceImpl implements RiderService {
     @Override
     public List<RideDto> getAllMyRides() {
         return List.of();
+    }
+
+    @Override
+    public Rider createNewRider(User user) {
+        Rider rider = Rider.builder().user(user).rating(0.0).build();
+        return riderRepository.save(rider);
     }
 }
