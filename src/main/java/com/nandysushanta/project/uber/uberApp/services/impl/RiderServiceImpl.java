@@ -5,8 +5,12 @@ import com.nandysushanta.project.uber.uberApp.dto.RideDto;
 import com.nandysushanta.project.uber.uberApp.dto.RideRequestDto;
 import com.nandysushanta.project.uber.uberApp.dto.RiderDto;
 import com.nandysushanta.project.uber.uberApp.entities.RideRequest;
+import com.nandysushanta.project.uber.uberApp.entities.enums.RideRequestStatus;
+import com.nandysushanta.project.uber.uberApp.repositories.RideRequestRepository;
 import com.nandysushanta.project.uber.uberApp.services.RiderService;
 
+import com.nandysushanta.project.uber.uberApp.strategies.DriverMatchingStrategy;
+import com.nandysushanta.project.uber.uberApp.strategies.RideFareCalculationsStrategy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -20,11 +24,12 @@ import java.util.List;
 public class RiderServiceImpl implements RiderService {
 
     private final ModelMapper modelMapper;
+    private final RideFareCalculationsStrategy rideFareCalculationsStrategy;
+    private final DriverMatchingStrategy driverMatchingStrategy;
+    private final RideRequestRepository rideRequestRepository;
 
     @Override
     public RideRequestDto requestRide(RideRequestDto rideRequestDto) {
-
-        log.info("Before mapping - PointDto: {}", rideRequestDto.getPickupLocation());
 
         RideRequest rideRequest = modelMapper.map(rideRequestDto, RideRequest.class);
         log.info(rideRequest.toString());
@@ -34,8 +39,16 @@ public class RiderServiceImpl implements RiderService {
                 rideRequest.getPickupLocation().getX(),
                 rideRequest.getPickupLocation().getY());
 
+        rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
 
-        return null;
+        Double fare = rideFareCalculationsStrategy.calculateFare(rideRequest);
+        rideRequest.setFare(fare);
+
+       RideRequest savedRideRequest = rideRequestRepository.save(rideRequest);
+
+        driverMatchingStrategy.findMatchingDriver(rideRequest);
+
+        return modelMapper.map(savedRideRequest, RideRequestDto.class);
     }
 
     @Override

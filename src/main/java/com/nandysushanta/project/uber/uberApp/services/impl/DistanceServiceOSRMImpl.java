@@ -1,7 +1,7 @@
 package com.nandysushanta.project.uber.uberApp.services.impl;
 
 import com.nandysushanta.project.uber.uberApp.services.DistanceService;
-import org.geolatte.geom.Point;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 @Service
