@@ -12,6 +12,5 @@ public class PointDto {
 
     public PointDto(double[] coordinates) {
         this.coordinates = coordinates;
-        this.type = "Point";
     }
 }

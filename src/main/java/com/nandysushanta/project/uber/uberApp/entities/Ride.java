@@ -1,15 +1,23 @@
 package com.nandysushanta.project.uber.uberApp.entities;
 
 import com.nandysushanta.project.uber.uberApp.entities.enums.PaymentMethod;
-import com.nandysushanta.project.uber.uberApp.entities.enums.RideRequestStatus;
 import com.nandysushanta.project.uber.uberApp.entities.enums.RideStatus;
+
 import jakarta.persistence.*;
-import org.geolatte.geom.Point;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ride {
 
     @Id
@@ -32,18 +40,15 @@ public class Ride {
     private Driver driver;
 
     @Enumerated(EnumType.STRING)
-    private RideRequestStatus rideRequestStatus;
-
-    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     private RideStatus rideStatus;
 
     private String otp;
-    
-    private Double fare;
 
-    private Double startedAt;
-    private Double endedAt;
+    private Double fare;
+    private LocalDateTime startedAt;
+    private LocalDateTime endedAt;
+
 }
