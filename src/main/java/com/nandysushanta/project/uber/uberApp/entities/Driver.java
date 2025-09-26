@@ -3,7 +3,7 @@ package com.nandysushanta.project.uber.uberApp.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.geolatte.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Getter
@@ -15,13 +15,15 @@ public class Driver {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "app_user")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private Double rating;
 
     private Boolean available;
 
+    private String vehicleId;
+
     @Column(columnDefinition = "Geometry(Point, 4326)")
-    Point currentLocation;
+    private Point currentLocation;
 }
